@@ -1,18 +1,41 @@
 from flask import request
+from .extensions import db
+from .models.producto import Producto
 
-def BuscarElemento (lista ,id, nombre):
+def BuscarElemento (id, nombre):
     if id != None:
-        for objeto in lista: 
-            if objeto.get('id') == int(id):
-                return {'Objeto': objeto, 'status': 200}
+        producto_obtenido = Producto.query.get_or_404(id)
 
-        return {'Mensaje': 'Objeto no encontrado', 'status': 404}
-        
-    if nombre != None:
-        for objeto in lista: 
-            if objeto.get('nombre') == nombre:
-                return {'Objeto': objeto, 'status': 200}
+        json_retornado = {
+            'ID': producto_obtenido.id,
+            'Nombre': producto_obtenido.nombre,
+            'Cantidad': producto_obtenido.cantidad
+        }
 
-        return {'Mensaje': 'Objeto no encontrado', 'status': 404}
-           
-    return {'Objetos':lista, 'status': 200}
+        return json_retornado
+    
+    elif nombre != None:
+        producto_obtenido = Producto.query.filter_by(nombreF=nombre).first_or_404(nombre)
+
+        json_retornado = {
+            'ID': producto_obtenido.id,
+            'Nombre': producto_obtenido.nombre,
+            'Cantidad': producto_obtenido.cantidad
+        }
+
+        return json_retornado
+    
+    else:
+        return {'Error': 'No Query'}
+    
+def crear_producto(nombre, cantidad):
+    nuevo_producto = Producto(nombre=nombre, cantidad=cantidad)
+    db.session.add(nuevo_producto)
+    db.session.commit()
+    json_retornado = {
+            'ID': nuevo_producto.id,
+            'Nombre': nuevo_producto.nombre,
+            'Cantidad': nuevo_producto.cantidad
+        }
+
+    return json_retornado
