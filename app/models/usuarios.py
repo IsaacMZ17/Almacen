@@ -19,7 +19,7 @@ class User(db.Model):
     
     @classmethod
     def get_user_by_email(cls, email):
-        return cls.query.filter_by(email=email).first_or_404()
+        return cls.query.filter_by(email=email).first()
     
     def save(self):
         db.session.add(self)
