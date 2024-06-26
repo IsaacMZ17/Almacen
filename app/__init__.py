@@ -4,6 +4,7 @@ from .routes import Resource
 from .routes import APIRoutes
 from .config import Config
 from .extensions import db
+from .extensions import jwt
 
 def crear_app():
     app = Flask(__name__)
@@ -11,6 +12,8 @@ def crear_app():
     app.config.from_object(Config)
 
     db.init_app(app)
+
+    jwt.init_app(app)
 
     with app.app_context():
         db.create_all()

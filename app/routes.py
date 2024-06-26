@@ -1,8 +1,10 @@
 from flask_restful import Resource
 from flask import request
 from .methods import *
+from flask_jwt_extended import jwt_required
 
 class HelloWorld(Resource):
+    @jwt_required()
     def get(self):
         return { 'message': 'Hola Mundo desde la API', 'status': 200 }
 

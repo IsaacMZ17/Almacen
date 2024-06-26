@@ -2,12 +2,17 @@ from flask import request
 from .extensions import db
 from .models.producto import Producto
 from .models.usuarios import User
+from flask_jwt_extended import create_access_token
+from datetime import timedelta
 
 def inicio_sesion(email, password):
     user = User.get_user_by_email(email=email)
 
     if user and (User.check_password(password=password)):
-        return { 'Mensaje': 'Logeado' }, 200
+        token_acceso = create_access_token(identity= user.username)
+        return { 'Mensaje': 'Logeado',
+                 'Token': token_acceso
+                },200
 
     return { 'Error': 'Correo o contraseñan no existen :(' }, 400
 
