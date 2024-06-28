@@ -1,12 +1,13 @@
 from flask_restful import Resource
 from flask import request
 from .methods import *
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity #type: ignore
 
 class HelloWorld(Resource):
     @jwt_required()
     def get(self):
-        return { 'message': 'Hola Mundo desde la API', 'status': 200 }
+        identidad = get_jwt_identity()
+        return { 'message': f'Hola {identidad}, ¿Como estas?', 'status': 200 }
 
 class Almacen(Resource):
     def get(self):

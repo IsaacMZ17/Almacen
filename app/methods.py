@@ -8,11 +8,13 @@ from datetime import timedelta
 def inicio_sesion(email, password):
     user = User.get_user_by_email(email=email)
 
+    caducidad = timedelta(minutes=2)
+
     if user and (User.check_password(password=password)):
-        token_acceso = create_access_token(identity= user.username)
+        token_acceso = create_access_token(identity = user.username, expires_delta= caducidad)
         return { 'Mensaje': 'Logeado',
                  'Token': token_acceso
-                },200
+                }, 200
 
     return { 'Error': 'Correo o contraseñan no existen :(' }, 400
 
@@ -22,7 +24,7 @@ def user_register (username, email, password):
     user = User.get_user_by_email(email=email)
 
     if user is not None:
-        return { 'Error': 'Este corre ya esta registrado :(' }, 403
+        return { 'Error': 'Este correo ya esta registrado :(' }, 403
     
     nuevo_usuario = User(username=username, email=email)
     nuevo_usuario.set_password(password=password)
