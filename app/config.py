@@ -1,5 +1,5 @@
 class Config:
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://admin:admin123@172.26.160.1:5432/almacen'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://<user>:<password>@localhost:5432/<database>'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = '4127705a6d2b380c7d0c8b5dd271482da29d'
+    SECRET_KEY = ''
     JWT_ALGORITHM = 'HS256'

@@ -10,8 +10,8 @@ def inicio_sesion(email, password):
 
     caducidad = timedelta(minutes=2)
 
-    if user and (User.check_password(password=password)):
-        token_acceso = create_access_token(identity = user.username, expires_delta= caducidad)
+    if user and (user.check_password(password=password)):
+        token_acceso = create_access_token(identity = user.username, expires_delta = caducidad)
         return { 'Mensaje': 'Logeado',
                  'Token': token_acceso
                 }, 200
