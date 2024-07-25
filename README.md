@@ -1,3 +1,3 @@
-# code
+# Almacen
 
 configurar archivo config.py
